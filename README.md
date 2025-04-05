@@ -5,7 +5,7 @@ Ein einfaches Python-/Bash-basiertes Tool zur Migration von VMs und LXC-Containe
 ## Inhalt
 - `pve-migrate.py` → Python-Script zur Auswahl, Sicherung und Übertragung von Gästen
 - `setup-pve-migrate.sh` → Installer für Python + Virtualenv + Abhängigkeiten
-- `restore-lxc.sh` → Bash-Script zur Wiederherstellung von LXC-Containern mit fester IP
+- `restore-lxc.sh` → Bash-Script zur Wiederherstellung von LXC-Containern und VMs
 
 ---
 
@@ -70,10 +70,10 @@ chmod +x restore-lxc.sh
 
 Das Restore-Script:
 - erkennt die Backup-Dateien automatisch
-- weist festen IPs basierend auf Container-IDs oder Vorgaben zu
-- spielt die Container in das gewünschte Storage ein (z. B. `local-lvm`)
+- spielt LXC-Container und VMs ins gewünschte Storage ein (z. B. `local-lvm`)
+- kann optional um statische IP-Zuweisungen oder Autostart erweitert werden
 
-> Hinweis: Das Script kann einfach erweitert werden, z. B. für VMs oder Autostart-Konfigurationen.
+> Hinweis: In der Standardversion sind keine festen IPs enthalten. Diese müssen bei Bedarf im Script manuell hinzugefügt werden.
 
 ---
 
