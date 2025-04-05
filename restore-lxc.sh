@@ -1,33 +1,33 @@
 #!/bin/bash
 
-# Speicherort der Backups auf dem neuen Server
+# Verzeichnis, in dem sich die Backup-Dateien befinden
 DUMP_DIR="/var/lib/vz/dump"
 STORAGE="local-lvm"
 BRIDGE="vmbr0"
-GATEWAY="172.16.16.1"
+GATEWAY="172.16.16.1"  # Anpassen, falls notwendig
 
-# Container-Infos: ID → IP
-declare -A CONTAINERS=(
-  [100]="172.16.16.155"
-  [103]="172.16.16.146"
-  [104]="172.16.16.80"
-  [113]="172.16.16.29"
-)
+echo "🚀 Starte Wiederherstellung von LXC-Containern..."
 
-echo "🚀 Starte Restore der Container mit statischer IP..."
+for FILE in "$DUMP_DIR"/vzdump-lxc-*.tar.zst; do
+  [[ -e "$FILE" ]] || continue
+  CTID=$(basename "$FILE" | cut -d '-' -f 3)
 
-for ID in "${!CONTAINERS[@]}"; do
-  IP="${CONTAINERS[$ID]}"
-  BACKUP_FILE=$(ls -t "$DUMP_DIR"/vzdump-lxc-"$ID"-*.tar.zst 2>/dev/null | head -n1)
-
-  if [[ -f "$BACKUP_FILE" ]]; then
-    echo "📦 Restoring Container $ID mit IP $IP..."
-    pct restore "$ID" "$BACKUP_FILE" \
-      --storage "$STORAGE" \
-      --net0 name=eth0,bridge=$BRIDGE,ip=${IP}/24,gw=$GATEWAY
-  else
-    echo "⚠️  Kein Backup für Container $ID gefunden!"
-  fi
+  echo "📦 Restore von LXC $CTID..."
+  pct restore "$CTID" "$FILE" \
+    --storage "$STORAGE" \
+    --net0 name=eth0,bridge=$BRIDGE,ip=dhcp
 done
 
-echo "✅ Restore abgeschlossen!"
+echo ""
+echo "🚀 Starte Wiederherstellung von VMs..."
+
+for FILE in "$DUMP_DIR"/vzdump-qemu-*.vma.zst; do
+  [[ -e "$FILE" ]] || continue
+  VMID=$(basename "$FILE" | cut -d '-' -f 3)
+
+  echo "📦 Restore von VM $VMID..."
+  qmrestore "$FILE" "$VMID" --storage "$STORAGE"
+done
+
+echo ""
+echo "✅ Wiederherstellung abgeschlossen!"
