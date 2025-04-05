@@ -5,6 +5,7 @@ Ein einfaches Python-/Bash-basiertes Tool zur Migration von VMs und LXC-Containe
 ## Inhalt
 - `pve-migrate.py` → Python-Script zur Auswahl, Sicherung und Übertragung von Gästen
 - `setup-pve-migrate.sh` → Installer für Python + Virtualenv + Abhängigkeiten
+- `restore-lxc.sh` → Bash-Script zur Wiederherstellung von LXC-Containern mit fester IP
 
 ---
 
@@ -50,6 +51,29 @@ Das Script installiert:
 source /root/pve-migrate-venv/bin/activate
 ./pve-migrate.py
 ```
+
+---
+
+## Wiederherstellung (Restore)
+
+### 1. Backup-Dateien befinden sich auf dem Ziel-Proxmox unter:
+```bash
+/var/lib/vz/dump
+```
+
+### 2. Restore-Script auf dem Zielhost verwenden (Beispiel: `restore-lxc.sh`)
+
+```bash
+chmod +x restore-lxc.sh
+./restore-lxc.sh
+```
+
+Das Restore-Script:
+- erkennt die Backup-Dateien automatisch
+- weist festen IPs basierend auf Container-IDs oder Vorgaben zu
+- spielt die Container in das gewünschte Storage ein (z. B. `local-lvm`)
+
+> Hinweis: Das Script kann einfach erweitert werden, z. B. für VMs oder Autostart-Konfigurationen.
 
 ---
 
