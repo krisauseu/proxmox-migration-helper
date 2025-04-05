@@ -1,5 +1,9 @@
 # Proxmox Migration Helper
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Languages](https://img.shields.io/github/languages/top/krisauseu/proxmox-migration-helper)](https://github.com/krisauseu/proxmox-migration-helper)
+[![Repo Size](https://img.shields.io/github/repo-size/krisauseu/proxmox-migration-helper)](https://github.com/krisauseu/proxmox-migration-helper)
+
 A simple Python/Bash-based tool for migrating VMs and LXC containers between Proxmox hosts – interactive, safe, and reusable.
 
 Ein einfaches Python-/Bash-basiertes Tool zur Migration von VMs und LXC-Containern zwischen Proxmox-Hosts – interaktiv, sicher und wiederverwendbar.
@@ -15,7 +19,7 @@ Ein einfaches Python-/Bash-basiertes Tool zur Migration von VMs und LXC-Containe
 
 ### Features (Python Script)
 - 🔧 Prompt for the IP of the target Proxmox host
-- 📋 Automatically detect all VMs (`qm list`) and LXCs (`pct list`)
+- 📊 Automatically detect all VMs (`qm list`) and LXCs (`pct list`)
 - ✅ Interactive checkbox selection menu (via `questionary`)
 - 📦 Backup with `vzdump` (compressed)
 - 🚚 File transfer via `scp` to the target host
@@ -59,7 +63,7 @@ This script will:
 
 ### Funktionen (Python-Script)
 - 🔧 Ziel-IP des neuen Hosts abfragen
-- 📋 Alle VMs (`qm list`) und LXCs (`pct list`) automatisch erkennen
+- 📊 Alle VMs (`qm list`) und LXCs (`pct list`) automatisch erkennen
 - ✅ Interaktive Auswahl per Checkbox-Menü (via `questionary`)
 - 📦 Backup mit `vzdump` (komprimiert)
 - 🚚 Dateiübertragung via `scp` an den Zielhost
